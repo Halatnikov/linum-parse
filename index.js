@@ -30,12 +30,14 @@ const api = new ParseServer({
   preserveFileName: process.env.PRESERVE_FILE_NAME,
   
   sessionLength: process.env.SESSION_LENGTH
+  
+  verbose: process.env.VERBOSE
 });
 
 const cors = require('cors');
 app.use(cors());
 
-const port = process.env.PORT || 1337
+const port = process.env.PORT
 const httpServer = require('http').createServer(app);
   httpServer.listen(port, function () {
     console.log('parse-server-example running on port ' + port + '.');
@@ -50,7 +52,6 @@ const path = require('path');
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // Serve the Parse API on the /parse URL prefix
-
 const mountPath = process.env.PARSE_MOUNT
 app.use(mountPath, api);
 
@@ -63,8 +64,3 @@ app.get('/', function (req, res) {
 /* app.get('/test', function (req, res) {
   res.sendFile(path.join(__dirname, '/public/test.html'));
 }); */
-
-module.exports = {
-  app,
-  api,
-};
