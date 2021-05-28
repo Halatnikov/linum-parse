@@ -50,10 +50,6 @@ app.listen(port, function () {
   console.log( process.env.APP_NAME + ' is running on port ' + port);
 });
 
-// Enable Live Query server
-const httpServer = require('http').createServer(app);
-ParseServer.createLiveQueryServer(httpServer);
-
 // other server path shenanigans
 const path = require('path');
 // display something when you're trying to access anything other than API
@@ -67,3 +63,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 /* app.get('/test', function (req, res) {
   res.sendFile(path.join(__dirname, '/public/test.html'));
 }); */
+
+// Enable Live Query server
+const httpServer = require('http').createServer(app);
+ParseServer.createLiveQueryServer(httpServer);
