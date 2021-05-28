@@ -47,12 +47,12 @@ httpServer.listen(port, function () {
   console.log( process.env.APP_NAME + ' is running on port ' + port);
 });
 
-// Enable Live Query server (currently does nothing)
-ParseServer.createLiveQueryServer(httpServer);
-
 // Set the main path for Parse API
 const mountPath = process.env.PARSE_MOUNT || "/parse"
 app.use(mountPath, api);
+
+// Enable Live Query server (currently does nothing)
+ParseServer.createLiveQueryServer(httpServer);
 
 // other server path shenanigans
 const path = require('path');
