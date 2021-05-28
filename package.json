@@ -13,10 +13,11 @@
     "kerberos": "1.1.4",
     "parse": "2.19.0",
     "parse-server": "4.5.0",
-	"cors": "*"
+	"cors": "2.8.5",
+    "parse-dashboard": "2.1.0"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node index.js && parse-dashboard --trustProxy=1 --mountPath /dashboard",
     "lint": "eslint --cache ./cloud && eslint --cache index.js && eslint --cache ./spec",
     "lint-fix": "eslint --cache --fix ./cloud && eslint --cache --fix index.js && eslint --cache --fix ./spec",
     "test": "mongodb-runner start && jasmine",
