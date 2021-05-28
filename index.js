@@ -32,10 +32,12 @@ const api = new ParseServer({
   sessionLength: process.env.SESSION_LENGTH
 });
 
-var cors = require('cors');
+const cors = require('cors');
 app.use(cors());
 
-var port = 1337
+app.listen(1337, function() {
+  console.log('parse-server-example running on port 1337.');
+});
 
 // This will enable the Live Query real-time server
 ParseServer.createLiveQueryServer(require('http').createServer(app));
@@ -46,7 +48,9 @@ const path = require('path');
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // Serve the Parse API on the /parse URL prefix
-app.use(process.env.PARSE_MOUNT, api);
+
+const mountPath = process.env.PARSE_MOUNT
+app.use(mountPath, api);
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function (req, res) {
