@@ -17,7 +17,6 @@ const api = new ParseServer({
   appId: process.env.APP_ID,
   appName: process.env.APP_NAME,
   serverURL: process.env.SERVER_URL,
-  mountPath: process.env.PARSE_MOUNT || "/parse",
   // database url, the thing that it all works on
   databaseURI: process.env.DATABASE_URI,
   // keys for API access
@@ -52,6 +51,7 @@ httpServer.listen(port, function () {
 ParseServer.createLiveQueryServer(httpServer);
 
 // Set the main path for Parse API
+const mountPath = process.env.PARSE_MOUNT || "/parse"
 app.use(mountPath, api);
 
 // other server path shenanigans
