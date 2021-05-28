@@ -35,6 +35,8 @@ const api = new ParseServer({
 var cors = require('cors');
 app.use(cors());
 
+var port = 1337
+
 // This will enable the Live Query real-time server
 ParseServer.createLiveQueryServer(require('http').createServer(app));
 
