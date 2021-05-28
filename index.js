@@ -2,6 +2,7 @@
 // compatible API routes.
 
 const express = require('express');
+var cors = require('cors');
 const ParseServer = require('parse-server').ParseServer;
 const path = require('path');
 const args = process.argv || [];
@@ -21,12 +22,22 @@ const config = {
   liveQuery: {
     classNames: ['Posts', 'Comments'], // List of classes to support for query subscriptions
   },
+  allowCustomObjectId: process.env.ALLOW_CUSTOM_OBJECT_ID || '',
+  appName: process.env.APP_NAME || '',
+  clientKey: process.env.CLIENT_KEY || '',
+  encryptionKey: process.env.ENCRYPTION_KEY || '',
+  fileKey: process.env.FILE_KEY || '',
+  javascriptKey: process.env.JAVASCRIPT_KEY || '',
+  preserveFileName: process.env.PRESERVE_FILE_NAME || '',
+  readOnlyMasterKey: process.env.READ_ONLY_MASTER_KEY || '',
+  restAPIKey: process.env.REST_API_KEY || '',
 };
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
 // If you wish you require them, you can set them as options in the initialization above:
 // javascriptKey, restAPIKey, dotNetKey, clientKey
 
 const app = express();
+app.use(cors());
 
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
