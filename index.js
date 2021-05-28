@@ -35,12 +35,14 @@ const api = new ParseServer({
 const cors = require('cors');
 app.use(cors());
 
-app.listen(1337, function() {
-  console.log('parse-server-example running on port 1337.');
-});
+const port = 1337
+const httpServer = require('http').createServer(app);
+  httpServer.listen(port, function () {
+    console.log('parse-server-example running on port ' + port + '.');
+  });
 
 // This will enable the Live Query real-time server
-ParseServer.createLiveQueryServer(require('http').createServer(app));
+ParseServer.createLiveQueryServer(httpServer);
 
 const path = require('path');
 
@@ -61,3 +63,8 @@ app.get('/', function (req, res) {
 /* app.get('/test', function (req, res) {
   res.sendFile(path.join(__dirname, '/public/test.html'));
 }); */
+
+module.exports = {
+  app,
+  config,
+};
