@@ -44,7 +44,7 @@ app.use(cors());
 const port = process.env.PORT
 const httpServer = require('http').createServer(app);
 httpServer.listen(port, function () {
-  console.log( process.env.APP_NAME + 'is running on port ' + port);
+  console.log( process.env.APP_NAME + ' is running on port ' + port);
 });
 
 // Enable Live Query server (currently does nothing)
