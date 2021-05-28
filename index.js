@@ -29,7 +29,7 @@ const api = new ParseServer({
   allowCustomObjectId: process.env.ALLOW_CUSTOM_OBJECT_ID,
   preserveFileName: process.env.PRESERVE_FILE_NAME,
   
-  sessionLength: process.env.SESSION_LENGTH
+  sessionLength: process.env.SESSION_LENGTH,
   
   verbose: process.env.VERBOSE
 });
