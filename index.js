@@ -35,7 +35,7 @@ const api = new ParseServer({
 const cors = require('cors');
 app.use(cors());
 
-const port = 1337
+const port = process.env.PORT || 1337
 const httpServer = require('http').createServer(app);
   httpServer.listen(port, function () {
     console.log('parse-server-example running on port ' + port + '.');
