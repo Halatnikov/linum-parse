@@ -2,76 +2,56 @@
 // compatible API routes.
 
 const express = require('express');
-var cors = require('cors');
-const ParseServer = require('parse-server').ParseServer;
-const path = require('path');
-const args = process.argv || [];
-const test = args.some(arg => arg.includes('jasmine'));
-
-const databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
-
-if (!databaseUri) {
-  console.log('DATABASE_URI not specified, falling back to localhost.');
-}
-const config = {
-  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
-  cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || 'myAppId',
-  masterKey: process.env.MASTER_KEY || '', //Add your master key here. Keep it secret!
-  serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse', // Don't forget to change to https if needed
-  liveQuery: {
-    classNames: ['Posts', 'Comments'], // List of classes to support for query subscriptions
-  },
-  allowCustomObjectId: process.env.ALLOW_CUSTOM_OBJECT_ID || '',
-  appName: process.env.APP_NAME || '',
-  clientKey: process.env.CLIENT_KEY || '',
-  encryptionKey: process.env.ENCRYPTION_KEY || '',
-  fileKey: process.env.FILE_KEY || '',
-  javascriptKey: process.env.JAVASCRIPT_KEY || '',
-  preserveFileName: process.env.PRESERVE_FILE_NAME || '',
-  readOnlyMasterKey: process.env.READ_ONLY_MASTER_KEY || '',
-  restAPIKey: process.env.REST_API_KEY || '',
-  sessionLength: process.env.SESSION_LENGTH || '',
-};
-// Client-keys like the javascript key or the .NET key are not necessary with parse-server
-// If you wish you require them, you can set them as options in the initialization above:
-// javascriptKey, restAPIKey, dotNetKey, clientKey
-
 const app = express();
+
+const ParseServer = require('parse-server').ParseServer;
+const api = new ParseServer({
+  
+  cloud: __dirname + '/cloud/main.js',
+  liveQuery: {
+    classNames: ['Posts', 'Comments'],
+  },
+  
+  appId: process.env.APP_ID,
+  appName: process.env.APP_NAME,
+  serverURL: process.env.SERVER_URL,
+  
+  databaseURI: process.env.DATABASE_URI,
+  
+  masterKey: process.env.MASTER_KEY,
+  readOnlyMasterKey: process.env.READ_ONLY_MASTER_KEY,
+  clientKey: process.env.CLIENT_KEY,
+  encryptionKey: process.env.ENCRYPTION_KEY,
+  fileKey: process.env.FILE_KEY,
+  restAPIKey: process.env.REST_API_KEY,
+  javascriptKey: process.env.JAVASCRIPT_KEY,
+  
+  allowCustomObjectId: process.env.ALLOW_CUSTOM_OBJECT_ID,
+  preserveFileName: process.env.PRESERVE_FILE_NAME,
+  
+  sessionLength: process.env.SESSION_LENGTH
+});
+
+var cors = require('cors');
 app.use(cors());
+
+// This will enable the Live Query real-time server
+ParseServer.createLiveQueryServer(require('http').createServer(app));
+
+const path = require('path');
 
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // Serve the Parse API on the /parse URL prefix
-const mountPath = process.env.PARSE_MOUNT || '/parse';
-if (!test) {
-  const api = new ParseServer(config);
-  app.use(mountPath, api);
-}
+app.use(process.env.PARSE_MOUNT, api);
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function (req, res) {
-  res.status(200).send('I dream of being a website.  Please star the parse-server repo on GitHub!');
+  res.status(200).send('Nothing to see here?');
 });
 
-// There will be a test page available on the /test path of your server url
-// Remove this before launching your app
-app.get('/test', function (req, res) {
+// reference for later
+/* app.get('/test', function (req, res) {
   res.sendFile(path.join(__dirname, '/public/test.html'));
-});
-
-const port = process.env.PORT || 1337;
-if (!test) {
-  const httpServer = require('http').createServer(app);
-  httpServer.listen(port, function () {
-    console.log('parse-server-example running on port ' + port + '.');
-  });
-  // This will enable the Live Query real-time server
-  ParseServer.createLiveQueryServer(httpServer);
-}
-
-module.exports = {
-  app,
-  config,
-};
+}); */
