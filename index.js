@@ -41,7 +41,7 @@ const cors = require('cors');
 app.use(cors());
 
 // Set the main path for Parse API
-const mountPath = process.env.PARSE_MOUNT || "/parse"
+const mountPath = process.env.PARSE_MOUNT || "/parse";
 app.use(mountPath, api);
 
 // Weird thing where you need to listen for the port which Heroku gave you, otherwise server would crash
@@ -52,7 +52,7 @@ httpServer.listen(port, function () {
 });
 
 // Enable Live Query server
-ParseServer.createLiveQueryServer(httpServer);
+var ParseLiveQuery = ParseServer.createLiveQueryServer(httpServer);
 
 // other server path shenanigans
 const path = require('path');
