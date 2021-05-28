@@ -60,13 +60,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 }); */
 
 // Weird thing where you need to listen for the port which Heroku gave you, otherwise server would crash
-const port = process.env.PORT || 1337;
-var weird = 1
-if (weird == 1) {
-  const httpServer = require('http').createServer(app);
-  httpServer.listen(port, function () {
-    console.log(process.env.APP_NAME + ' is running on port ' + port);
-  });
-  // Enable Live Query server (currently kinda doesn't work?)
-  ParseServer.createLiveQueryServer(httpServer);
-};
+const port = process.env.PORT;
+var httpServer = require('http').createServer(app);
+httpServer.listen(port)
+ParseServer.createLiveQueryServer(httpServer);
