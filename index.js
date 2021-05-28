@@ -34,7 +34,7 @@ const api = new ParseServer({
   
   sessionLength: process.env.SESSION_LENGTH || "300",
   
-  logLevel: process.env.LOG_LEVEL || "INFO",
+//logLevel: process.env.LOG_LEVEL || "INFO",
   verbose: process.env.VERBOSE || "FALSE"
 });
 
