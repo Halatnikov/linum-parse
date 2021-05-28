@@ -4,10 +4,10 @@
 const express = require('express');
 const app = express();
 
-// Pass server configuration
+// Server configuration
 const ParseServer = require('parse-server').ParseServer;
 const api = new ParseServer({
-  // "unchangeable" values, probably should be environment values, but maybe later
+  // "unchangeable" values, probably should be environmental, but maybe later
   cloud: __dirname + '/cloud/main.js', // Cloud code directory
   liveQuery: {
     classNames: ['Posts', 'Comments'], // LiveQuery placeholder setup
@@ -17,6 +17,7 @@ const api = new ParseServer({
   appId: process.env.APP_ID,
   appName: process.env.APP_NAME,
   serverURL: process.env.SERVER_URL,
+  mountPath: process.env.PARSE_MOUNT || "/parse",
   // database url, the thing that it all works on
   databaseURI: process.env.DATABASE_URI,
   // keys for API access
@@ -42,16 +43,15 @@ app.use(cors());
 
 // Weird thing where you need to listen for the port which Heroku gave you, otherwise server would crash
 const port = process.env.PORT
-const httpServer = require('http').createServer(app);
-  httpServer.listen(port, function () {
-    console.log( process.env.APP_NAME + 'is running on port ' + port);
-  });
+app.listen(port, function () {
+  console.log( process.env.APP_NAME + 'is running on port ' + port);
+});
 
 // Enable Live Query server (currently does nothing)
+const httpServer = require('http').createServer(app);
 ParseServer.createLiveQueryServer(httpServer);
 
 // Set the main path for Parse API
-const mountPath = process.env.PARSE_MOUNT
 app.use(mountPath, api);
 
 // other server path shenanigans
