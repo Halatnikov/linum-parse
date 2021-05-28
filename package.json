@@ -1,7 +1,7 @@
 {
-  "name": "parse-server-example",
-  "version": "1.4.0",
-  "description": "An example Parse API server using the parse-server module",
+  "name": "LinumParseServer",
+  "version": "0.1.0",
+  "description": "Based on example parse server on https://github.com/parse-community/parse-server-example",
   "main": "index.js",
   "dependencies": {
     "express": "4.17.1",
